@@ -1,0 +1,251 @@
+/* ===========================
+   RESET & BASE
+=========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top left, #0f2027, #1c3b4a 40%, #000000 90%);
+  color: #f5f5f5;
+  padding: 40px 20px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1 {
+  text-align: left;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 40px;
+  color: #fff;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #ffeb3b, #ff6f00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: slideDown 0.8s ease;
+}
+
+.logo {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #ffeb3b;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.menu a {
+  margin-left: 25px;
+  color: #f5f5f5;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.menu a:hover {
+  color: #ffeb3b;
+  text-shadow: 0 0 8px #ffeb3b;
+}
+
+/* ===========================
+   MAIN CONTAINER
+=========================== */
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1800px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+/* ===========================
+   STICKY NOTES
+=========================== */
+.sticky-notes {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sticky-note {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-left: 5px solid #ffeb3b;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  font-size: 0.95em;
+  line-height: 1.5;
+  backdrop-filter: blur(12px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sticky-note:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.sticky-note a {
+  color: #ffeb3b;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.sticky-note a:hover {
+  color: #fff176;
+}
+
+/* ===========================
+   UPDATES
+=========================== */
+.updates {
+  flex: 2 1 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.update-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 25px 30px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.update-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(255, 235, 59, 0.25);
+}
+
+.title {
+  font-size: 1.6em;
+  margin-bottom: 10px;
+  color: #ffeb3b;
+}
+
+.description {
+  font-size: 1em;
+  line-height: 1.6;
+}
+
+/* ===========================
+   CONTACT & FOOTER
+=========================== */
+.contact {
+  margin-top: 60px;
+  text-align: center;
+  font-size: 1em;
+  color: #ccc;
+}
+
+.contact a {
+  color: #ffeb3b;
+  text-decoration: none;
+  font-weight: bold;
+  transition: text-shadow 0.3s ease;
+}
+
+.contact a:hover {
+  text-shadow: 0 0 8px #ffeb3b;
+}
+
+/* ===========================
+   FAQ
+=========================== */
+.faq-container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px;
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.faq-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.faq-question {
+  font-size: 1.3em;
+  color: #ffeb3b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-answer {
+  font-size: 0.95em;
+  margin-top: 12px;
+  display: none;
+  color: #ddd;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 900px) {
+  .main-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .faq-question {
+    font-size: 1.1em;
+  }
+}
+
+/* ===========================
+   ANIMATIONS
+=========================== */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+@keyframes slideDown {
+  from {transform: translateY(-20px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}
