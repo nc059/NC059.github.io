@@ -6,19 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="css/style.css" />
   <title>Le projet</title>
-    <style>
+</head>
+<body>
+  <header class="navbar">
+  <div class="logo">Aventure projet</div>
+  <nav class="menu">
+    <a href="index.html">ACCUEIL</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+</header>
+  <h2 class="title" align="center">Inachevé dernière update screen 30/10/2025</h2>
+   <p class="title" align="center">Cliquer sur l'image pour aggrandir</h2>
 
-
-
-
-    .container {
-    max-width: 1490px;
-    margin-left: auto;
-    margin-right: auto;
-}
+<style>
 .bloc_grid {
     float: left;
-    background-color: #fff;
     margin: 20px 10px;
     transition: all .2s ease-in;
     box-shadow: 0 0 10px rgba(0,0,0,0.4);
@@ -34,53 +36,111 @@
     padding: 19px;
     color: #777;
 }
+#lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+}
 
-  </style>
+#lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
 
-</head>
-<body>
+</style>
+<p></p>
+<div class="container">
 
-<div id="menu-container"></div>
-
-
-
-    <div class="container">
-        <h1>Les cartes</h1>
-<a href="tropical.php">
     <div class="bloc_grid">
-    <img class="bloc_grid_img" src="https://www.jvfrance.com/wp-content/uploads/2019/09/GTA-San-Andreas.jpg">
-    <div class="bloc_title">Tropical Horizon</div>
+        <img class="bloc_grid_img" src="img/1.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/2.jpg" onclick="openLightbox(this.src)">
     </div>
      <div class="bloc_grid">
-    <img class="bloc_grid_img" src="https://www.jvfrance.com/wp-content/uploads/2019/09/GTA-San-Andreas.jpg">
-    <div class="bloc_title">Tropical Horizon</div>
+        <img class="bloc_grid_img" src="img/3.jpg" onclick="openLightbox(this.src)">
+    </div>
+     <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/4.jpg" onclick="openLightbox(this.src)">
+    </div>
+     <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/5.jpg" onclick="openLightbox(this.src)">
+    </div>
+     <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/6.jpg" onclick="openLightbox(this.src)">
+    </div>
+     <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/7.jpg" onclick="openLightbox(this.src)">
     </div>
     <div class="bloc_grid">
-    <img class="bloc_grid_img" src="https://www.jvfrance.com/wp-content/uploads/2019/09/GTA-San-Andreas.jpg">
-    <div class="bloc_title">Tropical Horizon</div>
+        <img class="bloc_grid_img" src="img/8.jpg" onclick="openLightbox(this.src)">
     </div>
     <div class="bloc_grid">
-    <img class="bloc_grid_img" src="https://www.jvfrance.com/wp-content/uploads/2019/09/GTA-San-Andreas.jpg">
-    <div class="bloc_title">Tropical Horizon</div>
+        <img class="bloc_grid_img" src="img/9.jpg" onclick="openLightbox(this.src)">
     </div>
-
-
-</div></div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/10.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/11.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/12.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/13.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/14.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/15.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/16.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/17.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/18.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/19.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/20.jpg" onclick="openLightbox(this.src)">
+    </div>
+    <div class="bloc_grid">
+        <img class="bloc_grid_img" src="img/21.jpg" onclick="openLightbox(this.src)">
+    </div>
 </div>
 
-
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="">
 </div>
-</div>
-
-
 <script>
-fetch('menu.html')
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('menu-container').innerHTML = data;
-  })
-  .catch(error => console.error('Erreur de chargement du menu:', error));
+function openLightbox(src) {
+    document.getElementById('lightbox').style.display = 'flex';
+    document.getElementById('lightbox-img').src = src;
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+}
 </script>
+
 
 </body>
 </html>
