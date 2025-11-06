@@ -1,146 +1,475 @@
-<!-- Toi qui regarde ce code Tu peux chourave le site je m'en fou-->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="css/style.css" />
-  <title>Le projet</title>
+  <title>OpenWorld Aventure</title>
+  <meta name="description" content="." />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===========================
+       RESET & TYPOGRAPHY
+    =========================== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --font-primary: 'Poppins', sans-serif;
+      --font-mono: 'Space Grotesk', sans-serif;
+      --clr-bg: #ffffff;
+      --clr-surface: #f5f5f5;
+      --clr-primary: #0070f3;
+      --clr-accent: #00c8ff;
+      --clr-text: #1a1a1a;
+      --clr-muted: #666666;
+      --clr-border: #e0e0e0;
+      --radius: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    body {
+      font-family: var(--font-primary);
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    img { max-width: 100%; display: block; border-radius: var(--radius); }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===========================
+       UTILITIES
+    =========================== */
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ===========================
+       NAVBAR
+    =========================== */
+    .navbar {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(16px); background: rgba(255,255,255,0.85);
+      border-bottom: 1px solid var(--clr-border); padding: 1rem 0;
+    }
+    .navbar.scrolled { background: rgba(255,255,255,0.95); box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: var(--font-mono); font-weight: 700; font-size: 1.5rem; color: var(--clr-primary); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { font-weight: 500; text-transform: uppercase; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2px; background: var(--clr-primary); transition: var(--transition); }
+    .nav-links a:hover { color: var(--clr-primary); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ===========================
+       HERO
+    =========================== */
+    .hero { text-align: center; padding: 4rem 0 3rem; }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 700;
+      background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .hero p { font-size: 1.1rem; color: var(--clr-muted); max-width: 800px; margin: 0 auto 1.5rem; }
+
+    /* ===========================
+       GALLERY WITH CAPTIONS
+    =========================== */
+    .gallery { padding: 3rem 0; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .gallery-item {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .gallery-item:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,112,243,0.15); }
+    .gallery-img {
+      width: 100%; height: 220px; object-fit: cover; transition: transform 0.4s ease;
+    }
+    .gallery-item:hover .gallery-img { transform: scale(1.05); }
+    .gallery-caption {
+      padding: 1.25rem;
+      font-size: 0.95rem;
+      color: var(--clr-muted);
+      line-height: 1.6;
+    }
+    .gallery-caption strong { color: var(--clr-text); display: block; margin-bottom: 0.5rem; font-size: 1.05rem; }
+
+    /* ===========================
+       LIGHTBOX
+    =========================== */
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); align-items: center; justify-content: center; z-index: 2000; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95%; max-height: 95%; border-radius: var(--radius); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+    .lightbox-close {
+      position: absolute; top: 2rem; right: 2rem; background: rgba(0,0,0,0.1); border: none; color: #333;
+      font-size: 2rem; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; transition: var(--transition);
+    }
+    .lightbox-close:hover { background: var(--clr-primary); color: white; }
+
+    /* ===========================
+       CHANGELOG
+    =========================== */
+    .changelog { padding: 4rem 0; background: var(--clr-surface); border-radius: var(--radius); margin: 3rem 0; }
+    .changelog h2 { text-align: center; font-size: 2.2rem; margin-bottom: 2.5rem; color: var(--clr-primary); }
+    .changelog-timeline { position: relative; max-width: 900px; margin: 0 auto; }
+    .changelog-timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 4px; height: 100%; background: linear-gradient(to bottom, var(--clr-primary), var(--clr-accent)); border-radius: 2px; }
+    .changelog-entry { position: relative; margin: 3rem 0; display: flex; justify-content: flex-start; align-items: flex-start; }
+    .changelog-entry:nth-child(even) { justify-content: flex-end; }
+    .changelog-card {
+      background: white; border: 1px solid var(--clr-border); border-radius: var(--radius);
+      padding: 1.5rem; width: 45%; box-shadow: 0 8px 32px rgba(0,0,0,0.06); transition: var(--transition);
+    }
+    .changelog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,112,243,0.12); }
+    .changelog-date { font-family: var(--font-mono); font-weight: 600; color: var(--clr-accent); font-size: 0.95rem; margin-bottom: 0.5rem; }
+    .changelog-title { font-size: 1.3rem; color: var(--clr-text); margin-bottom: 0.75rem; }
+    .changelog-desc { font-size: 1rem; color: var(--clr-muted); }
+    .changelog-dot {
+      position: absolute; left: 50%; transform: translateX(-50%); width: 16px; height: 16px;
+      background: var(--clr-primary); border: 4px solid white; border-radius: 50%; z-index: 1;
+      box-shadow: 0 0 0 4px rgba(0,112,243,0.2);
+    }
+
+    /* ===========================
+       FOOTER
+    =========================== */
+    footer { text-align: center; padding: 3rem 0 2rem; color: var(--clr-muted); font-size: 0.9rem; border-top: 1px solid var(--clr-border); }
+    footer a { color: var(--clr-primary); font-weight: 500; }
+
+    /* ===========================
+       RESPONSIVE
+    =========================== */
+    @media (max-width: 900px) {
+      .changelog-timeline::before { left: 30px; }
+      .changelog-entry, .changelog-entry:nth-child(even) { justify-content: flex-start; padding-left: 50px; }
+      .changelog-card { width: 100%; }
+      .changelog-dot { left: 23px; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.9rem; }
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+/* ===========================
+       FAQ SECTION
+    =========================== */
+    .faq-section { padding: 4rem 0; }
+    .faq-section h2 {
+      text-align: center; font-size: 2.2rem; margin-bottom: 3rem; color: var(--clr-primary);
+      position: relative;
+    }
+    .faq-section h2::after {
+      content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+      width: 80px; height: 4px; background: var(--clr-accent); border-radius: 2px;
+    }
+    .faq-container {
+      max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .faq-item {
+      background: white; border: 1px solid var(--clr-border); border-radius: var(--radius);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06); overflow: hidden;
+      transition: var(--transition);
+    }
+    .faq-item:hover { box-shadow: 0 12px 32px rgba(0,112,243,0.12); transform: translateY(-4px); }
+    .faq-question {
+      padding: 1.5rem; font-size: 1.25rem; font-weight: 600; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(135deg, #f8f9ff, #ffffff);
+      transition: var(--transition);
+      user-select: none;
+    }
+    .faq-question:hover { background: linear-gradient(135deg, #eef2ff, #f8f9ff); }
+    .faq-question::after {
+      content: '+'; font-size: 1.8rem; font-weight: 300; color: var(--clr-primary);
+      transition: transform 0.3s ease;
+    }
+    .faq-item.active .faq-question::after {
+      content: '−';
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      padding: 0 1.5rem;
+      font-size: 1.05rem;
+      color: var(--clr-muted);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      background: white;
+    }
+    .faq-item.active .faq-answer {
+      padding: 1.5rem;
+      max-height: 1200px; /* Suffisant pour tout le texte */
+    }
+    .faq-answer strong { color: var(--clr-text); }
+    .faq-answer code {
+      background: var(--clr-surface); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: var(--font-mono);
+    }
+  </style>
 </head>
 <body>
-  <header class="navbar">
-  <div class="logo">Aventure projet</div>
-  <nav class="menu">
-    <a href="index.html">ACCUEIL</a>
-    <a href="faq.html">FAQ</a>
-  </nav>
-</header>
-  <h2 class="title" align="center">BioTropical Inachevé dernière update screen 03/11/2025</h2>
-   <p class="title" align="center">Cliquer sur l'image pour aggrandir</h2>
 
-<style>
-.bloc_grid {
-    float: left;
-    margin: 20px 10px;
-    transition: all .2s ease-in;
-    box-shadow: 0 0 10px rgba(0,0,0,0.4);
-}
-.bloc_grid_img {
-    width: 350px;
-    height: 200px;
-    border-radius: 2px;
-}
-.bloc_title {
-    font-size: 16px;
-    text-align: center;
-    padding: 19px;
-    color: #777;
-}
-#lightbox {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    cursor: pointer;
-}
+  <!-- Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <div class="logo">OpenWorld Aventure</div>
+      <nav class="nav-links">
+        <a href="#accueil">Accueil</a>
+        <a href="#gallery">Captures</a>
+        <a href="#changelog">Changelog</a>
+      </nav>
+    </div>
+  </header>
 
-#lightbox img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
+  <!-- Hero -->
+  <section class="hero" id="accueil">
+    <div class="container">
+      <h1>OpenWorld Aventure</h1>
+      <p>OpenWorld Aventure est un serveur RPGFreeroam en local avec une carte open world basé sur plusieurs îles, Ce monde vivant regroupe une multitude d’activités et de niveaux, allant des quêtes d’aventure, des quêtes de métiers, aux zones de farm, des histoires à découvrir et bien plus. </p>
+    </div>
+  </section>
 
-</style>
-<p></p>
-<div class="container">
+  <!-- Gallery avec texte descriptif -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <h2>Découvrir les lieux</h2>
+      <div class="gallery-grid">
 
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/1.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/2.jpg" onclick="openLightbox(this.src)">
-    </div>
-     <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/3.jpg" onclick="openLightbox(this.src)">
-    </div>
-     <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/4.jpg" onclick="openLightbox(this.src)">
-    </div>
-     <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/5.jpg" onclick="openLightbox(this.src)">
-    </div>
-     <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/6.jpg" onclick="openLightbox(this.src)">
-    </div>
-     <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/7.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/8.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/9.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/10.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/11.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/12.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/13.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/14.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/15.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/16.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/17.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/18.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/19.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/20.jpg" onclick="openLightbox(this.src)">
-    </div>
-    <div class="bloc_grid">
-        <img class="bloc_grid_img" src="img/21.jpg" onclick="openLightbox(this.src)">
-    </div>
-</div>
+        <!-- Image 1 -->
+        <div class="gallery-item" onclick="openLightbox('img/1.jpg')">
+          <img src="img/2.jpg" alt="Vue générale de la carte inspirée de Fortnite C3S3" class="gallery-img" loading="lazy">
+          <div class="gallery-caption">
+            <strong>Des épaves</strong>
+            Beaucoup d'épave se trouvent sur les îles, les plages sont relativement sales à cause des côtes qui rejettent tous les déchets ainsi que des accidents de transport des mers, des trésors peuvent être trouvés.
+          </div>
+        </div>
 
-<!-- Lightbox -->
-<div id="lightbox" onclick="closeLightbox()">
-    <img id="lightbox-img" src="">
-</div>
-<script>
-function openLightbox(src) {
-    document.getElementById('lightbox').style.display = 'flex';
-    document.getElementById('lightbox-img').src = src;
-}
+        <!-- Image 2 -->
+        <div class="gallery-item" onclick="openLightbox('img/2.jpg')">
+          <img src="img/4.jpg" alt="Zone de quêtes d'aventure et exploration" class="gallery-img" loading="lazy">
+          <div class="gallery-caption">
+            <strong>La Vallée des plaisir</strong>
+           Une petite ville de bonheur remplie d'amour, de joie de vie, une ville très fréquentée par des marchands et des villageois, des boissons à volonté dans une ambiance musicale que vous n'êtes pas prêt d'oublier.
+          </div>
+        </div>
 
-function closeLightbox() {
-    document.getElementById('lightbox').style.display = 'none';
-}
-</script>
+        <!-- Image 3 -->
+        <div class="gallery-item" onclick="openLightbox('img/3.jpg')">
+          <img src="img/3.jpg" alt="Exemple de biome tropical riche en végétation" class="gallery-img" loading="lazy">
+          <div class="gallery-caption">
+            <strong>Baron de la drogue</strong>
+            Cette île regorge aussi de mauvaises surprises. Tout ne peut pas être beau et luxueux, les bandits extrêmement entraînés poussent des plantations de drogue. Il est dangereux de s'y aventurer, mais ces plantes pourraient renforcer votre armure ainsi que vos points de vie.
+          </div>
+        </div>
 
+
+
+      </div>
+    </div>
+  </section>
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <h2>Réponses claires et détaillées</h2>
+      <div class="faq-container">
+
+         <div class="faq-item">
+          <div class="faq-question">Quel type de serveur custom j'aimerai voir sur world of warcraft ?</div>
+          <div class="faq-answer">
+            le problème sur wow tout les serveurs ce ressemble, certains serveur custom sont nul apporte aucun plaisir sauf quand on n'a 12 ans et on veut un full stuff et faire des raids et donjons solo oui j'ai aimer de faire ça avant juste une semaine, maintenant je veux évoluer je veux un serveur pas forcément comme turtle wow mais un serveur par exemple un battle royale jamais vu, un serveur zombie apocalyspe jamais vu, et quand je parle apocalyspe zombie un vrai ! et pas avec un personnage avec 10k de vie je parle d'un truc réaliste, enfin des serveurs unique quoi, malheureusement sa n'existe pas ou très fermer.
+
+            j'ai déjà fait un serveur zombie c'était vraiment incroyable mais le problème je voulais pas le faire sur les cartes officiel du jeu malheureusement je ne savait pas mapper maintenant je sais le faire mais je n'ai plus l'envie le mod zombie je pourrais le mettre directement dans mon serveur puisque c'est un RPGFreeroam donc tout est inclus comme fortnite plusieurs mod et pas que battle royale.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Aventure Projet RPGFreeroam</div>
+          <div class="faq-answer">
+            Ce projet ainsi le serveur <strong>n’est pas abandonné</strong> et ne le sera jamais, enfin il ne faut jamais dire jamais mais a condition je décide de changer de vie et de tout balancer pour l'instant je garde cela à jour. 
+          </div>
+        </div>
+         <div class="faq-item">
+          <div class="faq-question">Le serveur c'est quoi</div>
+          <div class="faq-answer">
+            J'ai du mal a l'expliquer, car certains joueur de wow connaissent que l'univers de wow moi non j'aime world of warcraft mais pas un nolife non plus, je fait cela pour temps libre et atteindre mon objectif, ce serveur est un RPGfreeroam mon projet a commencer grâce aux serveur gta san andreas wtls je vous laisse vous renseigner je n'ai pas envie d'expliquer ce sera trop long, mon serveur est basé sur un système similaire mais sur wow et je suis très content de faire cela, si je pouvais rendre ce serveur public pour des raisons que vous savez, je le ferais, cette expérience serais incroyable et UNIQUE mais malheureusement je fait cela tout seul sans vraiment de connaissance enfin les trucs basique et simple.
+
+            Ensuite fortnite j'ai voulu rendre l'expérience unique avec la mana qui est vos point d'armure avec le sort bouclier de mana et votre vie le max a 1000 sans regen, pourquoi 1000 et pas 100 car vous serez déjà mort donc ce serais injouable, donc vous pouvez faire de tout activités exploration quête pleins pleins de chose !
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">Est-ce possible d’avoir un patch</div>
+          <div class="faq-answer">
+            Merci de <strong>ne pas me demander de créer un patch</strong>. C’est non ! Je ne fournirai <strong>jamais</strong> de fichier <code>patch-E.mpq</code> pré-compilé. Vous devez le créer vous-même.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Comment installer les cartes</div>
+          <div class="faq-answer">
+            1): Télécharger les fichiers zip<br>
+            2): Créer un fichier patch-E.mpq dans votre dossier data ensuite placer tout les contenue du fichier MPQ à l'intérieur<br>
+            3): Ouvrez maps.zip mettez DBCFILESCLIENT et World dans le fichier patch-E.mpq que vous avez créer ensuite lancer le jeu et tester<br>
+            4): Certaine map possède un sous-dossier il suffit juste de copier par exemple SP dans le fichier world/maps, n'oublier pas d'éditer le fichier map.dbc<br>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Les DBCs</div>
+          <div class="faq-answer">
+            Les DBCs sont <strong>indispensables</strong> pour le bon fonctionnement :<br>
+            • Noms des zones<br>
+            • Lumières personnalisées<br>
+            • Herbe, sol, rochers<br>
+            • <code>SoundAmbience</code> pour les sons custom<br><br>
+            Si vous êtes moddeur expérimenté, vous pouvez créer vos propres lignes DBC.<br>
+            Certaines DBC comme <code>Creature</code> ne sont pas utilisées sur la map actuelle, mais je les laisse pour de futurs développements ou les SQL optionnels.
+          </div>
+        </div>
+         <div class="faq-item">
+          <div class="faq-question">Pourquoi je partage mes cartes</div>
+          <div class="faq-answer">
+            Pourquoi pas, je partage car c'est mon projet, sans ce projet pas de carte. J'ai envie de partager car je veux une trace de mes cartes. D'autres peuvent l'utiliser. Avant j'étais quelqu'un qui recherche des cartes, personne n'en faisait ou était assez médiocre, donc j'ai décidé de faire la mienne et maintenant je fais partie d'un créateur et non d'un joueur en recherche d'une carte pour l'adapter à mon serveur et parce que le principe d'une communauté modding est de partager au moins son travail moi je le fait.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">Quel logiciel j'utilise pour faire mes cartes</div>
+          <div class="faq-answer">
+            J'utilise Noggit Red ou Noggit 3.3582, pourquoi j'utilise deux versions, car Noggit Red est le logiciel qui est plus complet et me fait gagner un temps énorme sur les DBCS. Accepte aussi l'azerty, et d'autres options, Noggit 3 car il possède une fonction appelée chunk mower qui est un outil parfait pour des cartes et une gagne-temps énorme, mais cela n'enlève pas votre talent, il faut quand même créer une carte et avoir de l'imagination, le logiciel ne va pas tout faire à votre place.
+          </div>
+        </div>
+         <div class="faq-item">
+          <div class="faq-question">Comment est venu l'idée de ma première carte</div>
+          <div class="faq-answer">
+            Ce n'est pas ma première carte les autres était trop mauvaise pour être publier mon dégout ma fait convaincre de les supprimés pour toujours SpawnIsland est une carte fortnite à la base mon inspiration est passer dessus puisque mon serveur est basé sur du RPGFreeroam, il me faut une carte une île pour avoir toutes les activités possible, la carte a été réussi, et éviter toute carte officiel d'azeroth et kalimdor, car ne n'en peux plus de voir ce genre de carte sur tous les serveurs custom surtout sur le mien, donc j'ai décider de crée m'a propre carte, une île de préférence car j'adore les palmiers surtout ceux de wow ce truc date de warcraft c'est fou ! est très splendide.
+
+            J'ai ensuite recrée une autre carte c'est ma carte final openworld avec plusieurs îles qui feront leur apparition au fil du temps, et je trouve c'est l'endroit parfait pour mon serveur. 
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">D'autre projet?</div>
+          <div class="faq-answer">
+            Non c'est mon seul projet je ne ferait rien d'autre je n'ai pas envie de faire autre chose je reste sur la version 3.3.5 pourquoi ? car je n'aime pas la version supérieur il y a du bon et du mauvais mais déjà a partir de cataclysm je n'ai pas aimé comment azeroth a été ravager par ce dragon qui a détruit nos magnifique belle terre et puis de toute façon ça ne m'interesse pas pour moi world of warcraft s'achève à wotlk qui restera la meilleur extension avec burning crusade.
+
+            De base mon projet était censé d'être sur l'extension burning crusade mais malheureusement ce qui ma-triste vraiment déjà burning crusade n'a pas d'ombre wotlk le supporte, de deux les graphisme sont légèrement inférieur, ensuite il manque beaucoups d'objets de sort de créature de talent ect... et puis les logiciels ne sont pas compatible sur cette extension donc je n'ai pas envie de convertir ça serais trop long.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">SQL OPTIONNELS</div>
+          <div class="faq-answer">
+            Certaines cartes contiennent des <code>gameobjects</code> spécifiques à mon serveur (démonstration).<br>
+            Ces objets utilisent des <strong>ID custom AzerothCore</strong>.<br><br>
+            <em>Note : certains objets n’existent pas sur la map originale, c’est normal.</em>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Est-ce que c’est compatible avec WoW moderne ?</div>
+          <div class="faq-answer">
+            <strong>Uniquement compatible avec la version 3.3.5a (Wrath of the Lich King)</strong>.<br><br>
+            Pour les versions antérieures ou supérieures (Retail, Classic Era, etc.), c’est à vous de convertir/adapter.<br>
+            <strong>Aucun support</strong> ne sera fourni pour ces versions.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Crédits</div>
+          <div class="faq-answer">
+            Vous êtes <strong>totalement libre</strong> d’utiliser ces cartes comme vous le souhaitez :<br>
+            • Serveurs privés<br>
+            • Projets personnels<br>
+            • Vidéos, streams, etc.<br><br>
+            <strong>Pas besoin de me créditer</strong>, mais si vous voulez :<br>
+            ➤ Crédits : <strong>Nico904</strong><br>
+            ➤ Partagez ma chaîne YouTube : <a href="https://www.youtube.com/@GNC904" target="_blank">youtube.com/@GNC904</a><br><br>
+            ❤️ Un abonnement fait toujours plaisir !
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Toggle FAQ accordéon
+    const items = document.querySelectorAll(".faq-item");
+    items.forEach(item => {
+      item.addEventListener("click", () => {
+        item.classList.toggle("active");
+      });
+    });
+  </script>
+  <!-- Changelog -->
+  <section class="changelog" id="changelog">
+    <div class="container">
+      <h2>Journal des Modifications</h2>
+      <div class="changelog-timeline">
+        <div class="changelog-entry">
+          <div class="changelog-dot"></div>
+          <div class="changelog-card">
+            <div class="changelog-date">06/11/2025</div>
+            <div class="changelog-title">L'île Tropical</div>
+            <div class="changelog-desc">La carte avance petit à petit<br>Plusieurs grotte seront ajouté</div>
+          </div>
+        </div>
+        <div class="changelog-entry">
+          <div class="changelog-dot"></div>
+          <div class="changelog-card">
+            <div class="changelog-date">11/06/2025</div>
+            <div class="changelog-title">Patch et DBC</div>
+            <div class="changelog-desc">Ajouts un nouveau arbre sur l'ile<br>Ajouts d'autre couleurs de champignon: Vert Violet</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" aria-label="Fermer" onclick="event.stopPropagation(); closeLightbox()">×</button>
+    <img id="lightbox-img" src="" alt="Image agrandie">
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>OpenWorld Adventure – Serveur en développement azerothcore.</p>
+      <p>Cartes libres d’utilisation pour la communauté.</p>
+    </div>
+  </footer>
+
+  <script>
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
 
 </body>
 </html>
