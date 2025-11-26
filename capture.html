@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OpenWorld Aventure</title>
+  <meta name="description" content="." />
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="menu"></div>
+
+  <div class="bloc_container">
+        <div class="bloc_grid">
+        <a href="img/capture/1.jpg"><img class="bloc_grid_img" src="img/capture/1.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/2.jpg"><img class="bloc_grid_img" src="img/capture/2.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/3.jpg"><img class="bloc_grid_img" src="img/capture/3.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/4.jpg"><img class="bloc_grid_img" src="img/capture/4.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/5.jpg"><img class="bloc_grid_img" src="img/capture/5.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/6.jpg"><img class="bloc_grid_img" src="img/capture/6.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/7.jpg"><img class="bloc_grid_img" src="img/capture/7.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/8.jpg"><img class="bloc_grid_img" src="img/capture/8.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/9.jpg"><img class="bloc_grid_img" src="img/capture/9.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/10.jpg"><img class="bloc_grid_img" src="img/capture/10.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/11.jpg"><img class="bloc_grid_img" src="img/capture/11.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/12.jpg"><img class="bloc_grid_img" src="img/capture/12.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/13.jpg"><img class="bloc_grid_img" src="img/capture/13.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/14.jpg"><img class="bloc_grid_img" src="img/capture/14.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/15.jpg"><img class="bloc_grid_img" src="img/capture/15.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/16.jpg"><img class="bloc_grid_img" src="img/capture/16.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/17.jpg"><img class="bloc_grid_img" src="img/capture/17.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/18.jpg"><img class="bloc_grid_img" src="img/capture/18.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/19.jpg"><img class="bloc_grid_img" src="img/capture/19.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/20.jpg"><img class="bloc_grid_img" src="img/capture/20.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/21.jpg"><img class="bloc_grid_img" src="img/capture/21.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/22.jpg"><img class="bloc_grid_img" src="img/capture/22.jpg"></a>
+    </div>
+     <div class="bloc_grid">
+        <a href="img/capture/23.jpg"><img class="bloc_grid_img" src="img/capture/23.jpg"></a>
+    </div>
+     <div class="bloc_grid">
+        <a href="img/capture/24.jpg"><img class="bloc_grid_img" src="img/capture/24.jpg"></a>
+    </div>
+     <div class="bloc_grid">
+        <a href="img/capture/25.jpg"><img class="bloc_grid_img" src="img/capture/25.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/26.jpg"><img class="bloc_grid_img" src="img/capture/26.jpg"></a>
+    </div>
+    <div class="bloc_grid">
+        <a href="img/capture/27.jpg"><img class="bloc_grid_img" src="img/capture/27.jpg"></a>
+    </div>
+    </div>    </div>
+
+  <script>
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+<script>
+fetch("menu.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+  });
+</script>
+</body>
+</html>

@@ -5,233 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>OpenWorld Aventure</title>
   <meta name="description" content="." />
-
+  <link rel="stylesheet" href="css/style.css" />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ===========================
-       RESET & TYPOGRAPHY
-    =========================== */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --font-primary: 'Poppins', sans-serif;
-      --font-mono: 'Space Grotesk', sans-serif;
-      --clr-bg: #ffffff;
-      --clr-surface: #f5f5f5;
-      --clr-primary: #0070f3;
-      --clr-accent: #00c8ff;
-      --clr-text: #1a1a1a;
-      --clr-muted: #666666;
-      --clr-border: #e0e0e0;
-      --radius: 20px;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    body {
-      font-family: var(--font-primary);
-      background: var(--clr-bg);
-      color: var(--clr-text);
-      line-height: 1.7;
-      min-height: 100vh;
-    }
-    img { max-width: 100%; display: block; border-radius: var(--radius); }
-    a { color: inherit; text-decoration: none; }
-
-    /* ===========================
-       UTILITIES
-    =========================== */
-    .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
-
-    /* ===========================
-       NAVBAR
-    =========================== */
-    .navbar {
-      position: sticky; top: 0; z-index: 1000;
-      backdrop-filter: blur(16px); background: rgba(255,255,255,0.85);
-      border-bottom: 1px solid var(--clr-border); padding: 1rem 0;
-    }
-    .navbar.scrolled { background: rgba(255,255,255,0.95); box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
-    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-family: var(--font-mono); font-weight: 700; font-size: 1.5rem; color: var(--clr-primary); }
-    .nav-links { display: flex; gap: 2rem; }
-    .nav-links a { font-weight: 500; text-transform: uppercase; position: relative; }
-    .nav-links a::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2px; background: var(--clr-primary); transition: var(--transition); }
-    .nav-links a:hover { color: var(--clr-primary); }
-    .nav-links a:hover::after { width: 100%; }
-
-    /* ===========================
-       HERO
-    =========================== */
-    .hero { text-align: center; padding: 4rem 0 3rem; }
-    .hero h1 {
-      font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 700;
-      background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      margin-bottom: 0.5rem;
-    }
-    .hero p { font-size: 1.1rem; color: var(--clr-muted); max-width: 800px; margin: 0 auto 1.5rem; }
-
-    /* ===========================
-       GALLERY WITH CAPTIONS
-    =========================== */
-    .gallery { padding: 3rem 0; }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    .gallery-item {
-      background: white;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      transition: var(--transition);
-      cursor: pointer;
-    }
-    .gallery-item:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,112,243,0.15); }
-    .gallery-img {
-      width: 100%; height: 220px; object-fit: cover; transition: transform 0.4s ease;
-    }
-    .gallery-item:hover .gallery-img { transform: scale(1.05); }
-    .gallery-caption {
-      padding: 1.25rem;
-      font-size: 0.95rem;
-      color: var(--clr-muted);
-      line-height: 1.6;
-    }
-    .gallery-caption strong { color: var(--clr-text); display: block; margin-bottom: 0.5rem; font-size: 1.05rem; }
-
-    /* ===========================
-       LIGHTBOX
-    =========================== */
-    .lightbox { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); align-items: center; justify-content: center; z-index: 2000; padding: 2rem; }
-    .lightbox.active { display: flex; }
-    .lightbox img { max-width: 95%; max-height: 95%; border-radius: var(--radius); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-    .lightbox-close {
-      position: absolute; top: 2rem; right: 2rem; background: rgba(0,0,0,0.1); border: none; color: #333;
-      font-size: 2rem; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; transition: var(--transition);
-    }
-    .lightbox-close:hover { background: var(--clr-primary); color: white; }
-
-    /* ===========================
-       CHANGELOG
-    =========================== */
-    .changelog { padding: 4rem 0; background: var(--clr-surface); border-radius: var(--radius); margin: 3rem 0; }
-    .changelog h2 { text-align: center; font-size: 2.2rem; margin-bottom: 2.5rem; color: var(--clr-primary); }
-    .changelog-timeline { position: relative; max-width: 900px; margin: 0 auto; }
-    .changelog-timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 4px; height: 100%; background: linear-gradient(to bottom, var(--clr-primary), var(--clr-accent)); border-radius: 2px; }
-    .changelog-entry { position: relative; margin: 3rem 0; display: flex; justify-content: flex-start; align-items: flex-start; }
-    .changelog-entry:nth-child(even) { justify-content: flex-end; }
-    .changelog-card {
-      background: white; border: 1px solid var(--clr-border); border-radius: var(--radius);
-      padding: 1.5rem; width: 45%; box-shadow: 0 8px 32px rgba(0,0,0,0.06); transition: var(--transition);
-    }
-    .changelog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,112,243,0.12); }
-    .changelog-date { font-family: var(--font-mono); font-weight: 600; color: var(--clr-accent); font-size: 0.95rem; margin-bottom: 0.5rem; }
-    .changelog-title { font-size: 1.3rem; color: var(--clr-text); margin-bottom: 0.75rem; }
-    .changelog-desc { font-size: 1rem; color: var(--clr-muted); }
-    .changelog-dot {
-      position: absolute; left: 50%; transform: translateX(-50%); width: 16px; height: 16px;
-      background: var(--clr-primary); border: 4px solid white; border-radius: 50%; z-index: 1;
-      box-shadow: 0 0 0 4px rgba(0,112,243,0.2);
-    }
-
-    /* ===========================
-       FOOTER
-    =========================== */
-    footer { text-align: center; padding: 3rem 0 2rem; color: var(--clr-muted); font-size: 0.9rem; border-top: 1px solid var(--clr-border); }
-    footer a { color: var(--clr-primary); font-weight: 500; }
-
-    /* ===========================
-       RESPONSIVE
-    =========================== */
-    @media (max-width: 900px) {
-      .changelog-timeline::before { left: 30px; }
-      .changelog-entry, .changelog-entry:nth-child(even) { justify-content: flex-start; padding-left: 50px; }
-      .changelog-card { width: 100%; }
-      .changelog-dot { left: 23px; }
-    }
-    @media (max-width: 600px) {
-      .nav-links { gap: 1rem; }
-      .nav-links a { font-size: 0.9rem; }
-      .gallery-grid { grid-template-columns: 1fr; }
-    }
-/* ===========================
-       FAQ SECTION
-    =========================== */
-    .faq-section { padding: 4rem 0; }
-    .faq-section h2 {
-      text-align: center; font-size: 2.2rem; margin-bottom: 3rem; color: var(--clr-primary);
-      position: relative;
-    }
-    .faq-section h2::after {
-      content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
-      width: 80px; height: 4px; background: var(--clr-accent); border-radius: 2px;
-    }
-    .faq-container {
-      max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;
-    }
-    .faq-item {
-      background: white; border: 1px solid var(--clr-border); border-radius: var(--radius);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06); overflow: hidden;
-      transition: var(--transition);
-    }
-    .faq-item:hover { box-shadow: 0 12px 32px rgba(0,112,243,0.12); transform: translateY(-4px); }
-    .faq-question {
-      padding: 1.5rem; font-size: 1.25rem; font-weight: 600; cursor: pointer;
-      display: flex; justify-content: space-between; align-items: center;
-      background: linear-gradient(135deg, #f8f9ff, #ffffff);
-      transition: var(--transition);
-      user-select: none;
-    }
-    .faq-question:hover { background: linear-gradient(135deg, #eef2ff, #f8f9ff); }
-    .faq-question::after {
-      content: '+'; font-size: 1.8rem; font-weight: 300; color: var(--clr-primary);
-      transition: transform 0.3s ease;
-    }
-    .faq-item.active .faq-question::after {
-      content: '−';
-      transform: rotate(180deg);
-    }
-    .faq-answer {
-      padding: 0 1.5rem;
-      font-size: 1.05rem;
-      color: var(--clr-muted);
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.4s ease;
-      background: white;
-    }
-    .faq-item.active .faq-answer {
-      padding: 1.5rem;
-      max-height: 1200px; /* Suffisant pour tout le texte */
-    }
-    .faq-answer strong { color: var(--clr-text); }
-    .faq-answer code {
-      background: var(--clr-surface); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: var(--font-mono);
-    }
+    
   </style>
 </head>
 <body>
-
-  <!-- Navbar -->
-  <header class="navbar" id="navbar">
-    <div class="container nav-inner">
-      <div class="logo">OpenWorld Aventure</div>
-      <nav class="nav-links">
-        <a href="#accueil">Accueil</a>
-        <a href="#gallery">Captures</a>
-        <a href="#changelog">Changelog</a>
-      </nav>
-    </div>
-  </header>
+<div id="menu"></div>
 
   <!-- Hero -->
   <section class="hero" id="accueil">
     <div class="container">
       <h1>OpenWorld Aventure</h1>
       <p>OpenWorld Aventure est un serveur RPGFreeroam en local avec une carte open world basé sur plusieurs îles, Ce monde vivant regroupe une multitude d’activités et de niveaux, allant des quêtes d’aventure, des quêtes de métiers, aux zones de farm, des histoires à découvrir et bien plus. </p>
+    <h2 style="color: #f9ff3c;">Progression Release </h2>
+    <div class="bar" style="width:100%">
+    <div class="bar2">20%</div>
+</div>
     </div>
   </section>
 
@@ -537,6 +330,12 @@
       });
     });
   </script>
-
+<script>
+fetch("menu.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+  });
+</script>
 </body>
 </html>
